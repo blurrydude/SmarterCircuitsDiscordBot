@@ -76,7 +76,7 @@ async def update(ctx):
         print(ctx.message.author.display_name+" tried to update")
         return
     await ctx.send("Getting source changes.")
-    result = subprocess.check_output(["git", "pull"])
+    result = subprocess.check_output(["git", "pull"]).decode("utf-8")
     await ctx.send(result)
     time.sleep(10)
     await ctx.send("I am restarting for updates.")
