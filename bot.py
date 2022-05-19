@@ -1,5 +1,7 @@
 # bot.py
 import os
+import time
+import subprocess
 from dotenv import load_dotenv
 from discord.ext import commands, tasks
 import paho.mqtt.client as mqtt
@@ -14,6 +16,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GENERAL = os.getenv('GENERAL')
 DEBUG = os.getenv('DEBUG')
 HOUSE = os.getenv('HOUSE')
+ADMIN = os.getenv('ADMIN')
 CRITTERCAM_SSH_USER = os.getenv('CRITTERCAM_SSH_USER')
 CRITTERCAM_SSH_PASS = os.getenv('CRITTERCAM_SSH_PASS')
 CRITTERCAM_SSH_HOST = os.getenv('CRITTERCAM_SSH_HOST')
@@ -65,6 +68,27 @@ async def cam(ctx, *args):
 @BOT.command(name='c')
 async def command(ctx, *args):
     await sdbot.bot_commands.command(ctx)
+
+@BOT.command(name='u', help='restart for code updates')
+async def update(ctx):
+    user_id = str(ctx.message.author.id)
+    if user_id != ADMIN:
+        print(ctx.message.author.display_name+" tried to update")
+        return
+    await ctx.send("Getting source changes.")
+    subprocess.call(["git", "pull"])
+    time.sleep(10)
+    await ctx.send("I am restarting for updates.")
+    subprocess.call(["python3", "bot.py"])
+    try:
+        main_loop.stop()
+    except:
+        pass
+    try:
+        BOT.close()
+    except:
+        pass
+    exit()
 
 if __name__ == "__main__":
     sdbot = SmarterDiscordBot(BOT,CRITTERCAM_SSH_USER,CRITTERCAM_SSH_PASS,CRITTERCAM_SSH_HOST,GENERAL,DEBUG,HOUSE)
