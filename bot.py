@@ -75,11 +75,14 @@ async def execute(ctx, *args):
     if user_id != ADMIN:
         await ctx.send("You're not the Dude.")
         return
-    host = ctx.message.content.replace("!restart ","")
-    ssh = SSHClient()
-    ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
-    ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
-    await ctx.send(ssh_stdout)
+    try:
+        host = ctx.message.content.replace("!restart ","")
+        ssh = SSHClient()
+        ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
+        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
+        await ctx.send(ssh_stdout)
+    except:
+        await ctx.send("restart failed "+ssh_stderr)
 
 @BOT.command(name='exec')
 async def execute(ctx, *args):
