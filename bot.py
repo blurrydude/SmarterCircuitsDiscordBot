@@ -81,8 +81,8 @@ async def execute(ctx, *args):
         ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
         await ctx.send(ssh_stdout)
-    except:
-        await ctx.send("restart failed "+ssh_stderr)
+    except Exception as err:
+        await ctx.send("restart failed\n"+err.with_traceback)
 
 @BOT.command(name='exec')
 async def execute(ctx, *args):
@@ -90,9 +90,12 @@ async def execute(ctx, *args):
     if user_id != ADMIN:
         await ctx.send("You're not the Dude.")
         return
-    command = ctx.message.content.replace("!exec ","").split(' ')
-    result = subprocess.check_output(command).decode("utf-8")
-    await ctx.send(result)
+    try:
+        command = ctx.message.content.replace("!exec ","").split(' ')
+        result = subprocess.check_output(command).decode("utf-8")
+        await ctx.send(result)
+    except Exception as err:
+        await ctx.send("command failed\n"+err.with_traceback)
 
 @BOT.command(name='u', help='restart for code updates')
 async def update(ctx):
