@@ -58,15 +58,15 @@ class SmarterDiscordBot:
     
     @tasks.loop(seconds=1)
     async def main_loop(self):
-        self.brain.main_loop()
+        await self.brain.main_loop()
     
     @BOT.command(name='cam')
     async def cam(self, ctx, *args):
-        self.bot_commands.cam(ctx)
+        await self.bot_commands.cam(ctx)
 
     @BOT.command(name='c')
     async def command(self, ctx, *args):
-        self.bot_commands.command(ctx)
+        await self.bot_commands.command(ctx)
 
 if __name__ == "__main__":
     sdbot = SmarterDiscordBot(BOT,TOKEN,CRITTERCAM_SSH_USER,CRITTERCAM_SSH_PASS,CRITTERCAM_SSH_HOST,GENERAL,DEBUG,HOUSE)
