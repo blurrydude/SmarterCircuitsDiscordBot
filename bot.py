@@ -95,7 +95,7 @@ async def execute(ctx, *args):
         result = subprocess.check_output(command).decode("utf-8")
         await ctx.send(result)
     except Exception as err:
-        await ctx.send("command failed\n"+err.with_traceback)
+        await ctx.send("command failed\n"+err.with_traceback())
 
 @BOT.command(name='u', help='restart for code updates')
 async def update(ctx):
