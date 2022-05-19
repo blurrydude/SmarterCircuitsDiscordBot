@@ -5,9 +5,15 @@ class DiscordUtility:
         self.sdbot = sdbot
 
     async def send(self, channel, message):
-        channel = self.sdbot.bot.get_channel(channel)
-        await channel.send(message)
+        try:
+            channel = self.sdbot.bot.get_channel(channel)
+            await channel.send(message)
+        except:
+            print("failed to send to "+str(channel))
     
     async def send_file(self, channel, filename):
-        channel = self.sdbot.bot.get_channel(channel)
-        await channel.send(file=File(filename))
+        try:
+            channel = self.sdbot.bot.get_channel(channel)
+            await channel.send(file=File(filename))
+        except:
+            print("failed to send file to "+str(channel))
