@@ -9,11 +9,11 @@ class DiscordUtility:
             channel = self.sdbot.bot.get_channel(channel)
             await channel.send(message)
         except:
-            print("failed to send")
+            print("failed to send to "+str(channel))
     
     async def send_file(self, channel, filename):
         try:
             channel = self.sdbot.bot.get_channel(channel)
             await channel.send(file=File(filename))
         except:
-            print("failed to send file")
+            print("failed to send file to "+str(channel))
