@@ -27,9 +27,9 @@ class BotCommands:
             time.sleep(sec+10)
         print("getting file")
 
-        self.chassis.ssh.connect(self.cam_ssh_host,username=self.cam_ssh_user,password=self.cam_ssh_pass)
+        self.chassis.ssh.connect(self.chassis.cam_ssh_host,username=self.chassis.cam_ssh_user,password=self.chassis.cam_ssh_pass)
         with SCPClient(self.chassis.ssh.get_transport()) as scpc:
-            scpc.get('/home/'+self.cam_ssh_user+'/'+filename, filename)
+            scpc.get('/home/'+self.chassis.cam_ssh_user+'/'+filename, filename)
         self.chassis.ssh.close()
         await self.chassis.utility.send_file(channel.id, filename)
     

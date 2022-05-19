@@ -20,8 +20,10 @@ CRITTERCAM_SSH_HOST = os.getenv('CRITTERCAM_SSH_HOST')
 
 BOT = commands.Bot(command_prefix='!')
 
+sdbot = None
+
 class SmarterDiscordBot:
-    def __init__(self, bot, token, cam_ssh_user, cam_ssh_pass, cam_ssh_host, general_channel, debug_channel, house_channel):
+    def __init__(self, bot, cam_ssh_user, cam_ssh_pass, cam_ssh_host, general_channel, debug_channel, house_channel):
         self.bot = bot
         self.cam_ssh_user = cam_ssh_user
         self.cam_ssh_pass = cam_ssh_pass
@@ -41,32 +43,31 @@ class SmarterDiscordBot:
         self.mqtt.on_message = self.mqtt_handler.on_message
 
         self.start_mqtt()
-        self.start_bot(token)
- 
+
     def start_mqtt(self):
         self.mqtt.connect('192.168.2.200')
         self.mqtt.subscribe("discord/out/#")
         self.mqtt.subscribe("shellies/#")
         self.mqtt.loop_start()
     
-    def start_bot(self, token):
-        self.main_loop.start()
-        self.bot.run(token)
-        # this happens when the bot stops
+    def stop(self):
         self.mqtt.loop_stop()
         self.mqtt.disconnect()
     
-    @tasks.loop(seconds=1)
-    async def main_loop(self):
-        await self.brain.main_loop()
-    
-    @BOT.command(name='cam')
-    async def cam(self, ctx, *args):
-        await self.bot_commands.cam(ctx)
+@tasks.loop(seconds=1)
+async def main_loop():
+    await sdbot.brain.main_loop()
 
-    @BOT.command(name='c')
-    async def command(self, ctx, *args):
-        await self.bot_commands.command(ctx)
+@BOT.command(name='cam')
+async def cam(ctx, *args):
+    await sdbot.bot_commands.cam(ctx)
+
+@BOT.command(name='c')
+async def command(ctx, *args):
+    await sdbot.bot_commands.command(ctx)
 
 if __name__ == "__main__":
-    sdbot = SmarterDiscordBot(BOT,TOKEN,CRITTERCAM_SSH_USER,CRITTERCAM_SSH_PASS,CRITTERCAM_SSH_HOST,GENERAL,DEBUG,HOUSE)
+    sdbot = SmarterDiscordBot(BOT,CRITTERCAM_SSH_USER,CRITTERCAM_SSH_PASS,CRITTERCAM_SSH_HOST,GENERAL,DEBUG,HOUSE)
+    main_loop.start()
+    BOT.run(TOKEN)
+    sdbot.stop()

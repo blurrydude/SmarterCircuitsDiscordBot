@@ -10,5 +10,5 @@ class BotBrain:
                 channels[d["channel"]] = []
             channels[d["channel"]].append(d["data"])
         for key in channels.keys():
-            await self.utility.send(key, "\n".join(channels[key]))
+            await self.chassis.utility.send(key, "\n".join(channels[key]))
         self.message_queue = []
