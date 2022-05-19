@@ -75,7 +75,7 @@ async def execute(ctx, *args):
     if user_id != ADMIN:
         await ctx.send("You're not the Dude.")
         return
-    command = ctx.message.replace("!exec ","").split(' ')
+    command = ctx.message.content.replace("!exec ","").split(' ')
     result = subprocess.check_output(command).decode("utf-8")
     await ctx.send(result)
 
