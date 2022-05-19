@@ -69,6 +69,18 @@ async def cam(ctx, *args):
 async def command(ctx, *args):
     await sdbot.bot_commands.command(ctx)
 
+@BOT.command(name='restart')
+async def execute(ctx, *args):
+    user_id = str(ctx.message.author.id)
+    if user_id != ADMIN:
+        await ctx.send("You're not the Dude.")
+        return
+    host = ctx.message.content.replace("!restart ","")
+    ssh = SSHClient()
+    ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
+    ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
+    await ctx.send(ssh_stdout)
+
 @BOT.command(name='exec')
 async def execute(ctx, *args):
     user_id = str(ctx.message.author.id)
