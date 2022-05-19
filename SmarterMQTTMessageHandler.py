@@ -14,6 +14,8 @@ class MQTTMessageHandler:
             channel = self.sdbot.general_channel
         elif path[2] == "debug":
             channel = self.sdbot.debug_channel
+        elif path[2] == "house":
+            channel = self.sdbot.house_channel
         else:
             channel = int(path[2])
         if "!c" in data:
