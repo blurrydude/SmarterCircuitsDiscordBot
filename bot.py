@@ -69,6 +69,16 @@ async def cam(ctx, *args):
 async def command(ctx, *args):
     await sdbot.bot_commands.command(ctx)
 
+@BOT.command(name='exec')
+async def execute(ctx, *args):
+    user_id = str(ctx.message.author.id)
+    if user_id != ADMIN:
+        await ctx.send("You're not the Dude.")
+        return
+    command = ctx.message.replace("!exec ","").split(' ')
+    result = subprocess.check_output(command).decode("utf-8")
+    await ctx.send(result)
+
 @BOT.command(name='u', help='restart for code updates')
 async def update(ctx):
     user_id = str(ctx.message.author.id)
