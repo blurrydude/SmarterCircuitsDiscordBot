@@ -5,10 +5,6 @@ class MQTTMessageHandler:
     def on_message(self, client, userdata, message):
         topic = message.topic
         data = str(message.payload.decode("utf-8"))
-        if "shellies" in topic:
-            if "shellyht" in topic:
-                self.sdbot.brain.message_queue.append({"channel":self.sdbot.debug_channel, "data":topic+": "+data})
-            return
         path = topic.split('/')
         if path[2] == "general":
             channel = self.sdbot.general_channel

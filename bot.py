@@ -50,7 +50,6 @@ class SmarterDiscordBot:
     def start_mqtt(self):
         self.mqtt.connect('192.168.2.200')
         self.mqtt.subscribe("discord/out/#")
-        self.mqtt.subscribe("shellies/#")
         self.mqtt.loop_start()
     
     def stop(self):
