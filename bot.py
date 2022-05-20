@@ -60,6 +60,10 @@ class SmarterDiscordBot:
 async def main_loop():
     await sdbot.brain.main_loop()
 
+@BOT.command(name='status')
+async def status(ctx, *args):
+    await sdbot.bot_commands.status()
+
 @BOT.command(name='cam')
 async def cam(ctx, *args):
     await sdbot.bot_commands.cam(ctx)
