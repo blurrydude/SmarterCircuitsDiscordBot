@@ -5,8 +5,8 @@ class BotCommands:
     def __init__(self, chassis):
         self.chassis = chassis
     
-    async def status(self):
-        await self.chassis.mqtt.publish("smarter_circuits/command","show status")
+    def status(self):
+        self.chassis.mqtt.publish("smarter_circuits/command","show status")
     
     async def cam(self, ctx):
         message = ctx.message
