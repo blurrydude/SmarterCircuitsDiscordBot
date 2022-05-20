@@ -24,10 +24,10 @@ class BotCommands:
         print("sent crittercam command")
         if sec == 0:
             filename = "output_"+cam+".jpg"
-            time.sleep(2)
+            time.sleep(10)
         else:
             filename = "output_"+cam+".avi"
-            time.sleep(sec+10)
+            time.sleep(sec+30)
         print("getting file")
 
         self.chassis.ssh.connect(self.chassis.cam_ssh_host,username=self.chassis.cam_ssh_user,password=self.chassis.cam_ssh_pass)
