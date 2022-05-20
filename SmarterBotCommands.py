@@ -43,8 +43,8 @@ class BotCommands:
         channel = message.channel
         text = message.content
         self.chassis.mqtt.publish("discord/in/"+str(channel.id)+"/"+author, text)
-        if author.lower() != "blurrydude":
-            await message.channel.send("You are not the Dude.")
+        if self.chassis.is_admin(str(user_id)) is False:
+            await ctx.send("You're not an admin.")
             return
 
         self.chassis.mqtt.publish("smarter_circuits/command","toggle "+text)
@@ -56,8 +56,8 @@ class BotCommands:
         channel = message.channel
         text = message.content
         self.chassis.mqtt.publish("discord/in/"+str(channel.id)+"/"+author, text)
-        if author.lower() != "blurrydude":
-            await message.channel.send("You are not the Dude.")
+        if self.chassis.is_admin(str(user_id)) is False:
+            await ctx.send("You're not an admin.")
             return
 
         self.chassis.mqtt.publish("smarter_circuits/command",str(channel.id)+" bot says "+text)
