@@ -62,7 +62,7 @@ async def main_loop():
 
 @BOT.command(name='status')
 async def status(ctx, *args):
-    await sdbot.bot_commands.status()
+    sdbot.bot_commands.status()
 
 @BOT.command(name='cam')
 async def cam(ctx, *args):
