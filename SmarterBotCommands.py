@@ -36,6 +36,19 @@ class BotCommands:
         self.chassis.ssh.close()
         await self.chassis.utility.send_file(channel.id, filename)
     
+    async def toggle(self, ctx):
+        message = ctx.message
+        user_id = str(message.author.id)
+        author = message.author.display_name
+        channel = message.channel
+        text = message.content
+        self.chassis.mqtt.publish("discord/in/"+str(channel.id)+"/"+author, text)
+        if author.lower() != "blurrydude":
+            await message.channel.send("You are not the Dude.")
+            return
+
+        self.chassis.mqtt.publish("smarter_circuits/command","toggle "+text)
+    
     async def command(self, ctx):
         message = ctx.message
         user_id = str(message.author.id)

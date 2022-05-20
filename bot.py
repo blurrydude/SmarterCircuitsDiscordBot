@@ -60,26 +60,30 @@ class SmarterDiscordBot:
 async def main_loop():
     await sdbot.brain.main_loop()
 
-@BOT.command(name='status')
+@BOT.command(name='status', help="sends the Smarter Circtuis system status to the House channel")
 async def status(ctx, *args):
     sdbot.bot_commands.status()
 
-@BOT.command(name='cam')
+@BOT.command(name='cam', help="takes a picture or video by camera number (0-2)")
 async def cam(ctx, *args):
     await sdbot.bot_commands.cam(ctx)
 
-@BOT.command(name='c')
+@BOT.command(name='c', help="issues a command to the Smarter Circuits system")
 async def command(ctx, *args):
     await sdbot.bot_commands.command(ctx)
 
-@BOT.command(name='restart')
+@BOT.command(name='t', help="toggles a circuit by name")
+async def toggle(ctx, *args):
+    await sdbot.bot_commands.toggle(ctx)
+
+@BOT.command(name='restart', help='restarts a raspberry pi by last octet of IP')
 async def execute(ctx, *args):
     user_id = str(ctx.message.author.id)
     if user_id != ADMIN:
         await ctx.send("You're not the Dude.")
         return
     try:
-        host = ctx.message.content.replace("!restart ","")
+        host = "192.168.2"+ctx.message.content.replace("!restart ","")
         ssh = SSHClient()
         ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
@@ -87,20 +91,7 @@ async def execute(ctx, *args):
     except Exception as err:
         await ctx.send("restart failed\n"+err.with_traceback)
 
-@BOT.command(name='exec')
-async def execute(ctx, *args):
-    user_id = str(ctx.message.author.id)
-    if user_id != ADMIN:
-        await ctx.send("You're not the Dude.")
-        return
-    try:
-        command = ctx.message.content.replace("!exec ","").split(' ')
-        result = subprocess.check_output(command).decode("utf-8")
-        await ctx.send(result)
-    except Exception as err:
-        await ctx.send("command failed\n"+str(err))
-
-@BOT.command(name='u', help='restart for code updates')
+@BOT.command(name='u', help='update bot course code and restart')
 async def update(ctx):
     user_id = str(ctx.message.author.id)
     if user_id != ADMIN:
