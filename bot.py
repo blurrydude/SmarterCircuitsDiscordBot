@@ -83,7 +83,7 @@ async def toggle(ctx, *args):
 async def set_temp(ctx, *args):
     await sdbot.bot_commands.set_temp(ctx)
 
-@BOT.command(name='restart', help='restarts a raspberry pi by last octet of IP - admin only')
+@BOT.command(name='restart', help='restarts a raspberry pi by name - admin only')
 async def execute(ctx, *args):
     await sdbot.bot_commands.restart(ctx)
     # if sdbot.is_admin(str(ctx.message.author.id)) is False:
