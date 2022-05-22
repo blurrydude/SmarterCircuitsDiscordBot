@@ -86,17 +86,20 @@ async def set_temp(ctx, *args):
 @BOT.command(name='restart', help='restarts a raspberry pi by name - admin only')
 async def execute(ctx, *args):
     await sdbot.bot_commands.restart(ctx)
-    # if sdbot.is_admin(str(ctx.message.author.id)) is False:
-    #     await ctx.send("You're not an admin.")
-    #     return
-    # try:
-    #     host = "192.168.2"+ctx.message.content.replace("!restart ","")
-    #     ssh = SSHClient()
-    #     ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
-    #     ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
-    #     await ctx.send(ssh_stdout)
-    # except Exception as err:
-    #     await ctx.send("restart failed\n"+err.with_traceback)
+
+@BOT.command(name='restartssh', help='restarts a raspberry pi by last octet via ssh - admin only')
+async def execute(ctx, *args):
+    if sdbot.is_admin(str(ctx.message.author.id)) is False:
+        await ctx.send("You're not an admin.")
+        return
+    try:
+        host = "192.168.2"+ctx.message.content.replace("!restartssh ","")
+        ssh = SSHClient()
+        ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
+        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
+        await ctx.send(ssh_stdout)
+    except Exception as err:
+        await ctx.send("restart failed\n"+err.with_traceback)
 
 @BOT.command(name='u', help='update bot course code and restart - admin only')
 async def update(ctx):
