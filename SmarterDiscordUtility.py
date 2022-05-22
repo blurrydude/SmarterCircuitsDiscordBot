@@ -1,3 +1,4 @@
+import traceback
 from discord import File
 
 class DiscordUtility:
@@ -8,6 +9,12 @@ class DiscordUtility:
         try:
             channel = self.sdbot.bot.get_channel(channel)
             await channel.send(message)
+        except Exception as e: 
+            error = str(e)
+            tb = traceback.format_exc()
+            print("failed to send to "+str(channel))
+            print(error)
+            print(tb)
         except:
             print("failed to send to "+str(channel))
     
