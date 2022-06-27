@@ -88,8 +88,16 @@ async def set_temp(ctx, *args):
 async def execute(ctx, *args):
     await sdbot.bot_commands.restart(ctx)
 
+@BOT.command(name='tmo', help='thermostat manual override !tmo <room> <true/false>')
+async def tmo(ctx, *args):
+    await sdbot.bot_commands.thermostat_manual_override(ctx)
+
+@BOT.command(name='tmc', help='thermostat manual command !tmc <room> <fan/heat/ac> <on/off>')
+async def tmc(ctx, *args):
+    await sdbot.bot_commands.thermostat_manual_command(ctx)
+
 @BOT.command(name='restartssh', help='restarts a raspberry pi by last octet via ssh - admin only')
-async def execute(ctx, *args):
+async def restartssh(ctx, *args):
     if sdbot.is_admin(str(ctx.message.author.id)) is False:
         await ctx.send("You're not an admin.")
         return

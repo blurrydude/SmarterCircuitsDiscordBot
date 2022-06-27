@@ -87,3 +87,33 @@ class BotCommands:
             return
 
         self.chassis.mqtt.publish("smarter_circuits/command","set temperature "+text.split(' ')[-1])
+    
+    async def thermostat_manual_override(self, ctx):
+        message = ctx.message
+        user_id = str(message.author.id)
+        author = message.author.display_name
+        channel = message.channel
+        text = message.content
+        self.chassis.mqtt.publish("discord/in/"+str(channel.id)+"/"+author, text)
+        if self.chassis.is_admin(str(user_id)) is False:
+            await ctx.send("You're not an admin.")
+            return
+        data = text.split(' ')
+        data.pop(0)
+
+        self.chassis.mqtt.publish("smarter_circuits/thermosettings/"+data[0],"manual_override:"+data[1])
+    
+    async def thermostat_manual_command(self, ctx):
+        message = ctx.message
+        user_id = str(message.author.id)
+        author = message.author.display_name
+        channel = message.channel
+        text = message.content
+        self.chassis.mqtt.publish("discord/in/"+str(channel.id)+"/"+author, text)
+        if self.chassis.is_admin(str(user_id)) is False:
+            await ctx.send("You're not an admin.")
+            return
+        data = text.split(' ')
+        data.pop(0)
+
+        self.chassis.mqtt.publish("smarter_circuits/thermosettings/"+data[0],data[1]+":"+data[2])
