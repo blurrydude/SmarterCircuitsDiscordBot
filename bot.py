@@ -108,11 +108,11 @@ async def update(ctx):
         await ctx.send("You're not an admin.")
         return
     await ctx.send("Getting source changes.")
-    result = subprocess.check_output(["git", "pull"]).decode("utf-8")
+    result = subprocess.check_output(["git", "pull"], cwd="/home/ian/SmarterCircuitsDiscordBot/").decode("utf-8")
     await ctx.send(result)
     time.sleep(10)
     await ctx.send("I am restarting for updates.")
-    subprocess.call(["python3", "bot.py"])
+    subprocess.call(["python3", "bot.py"], cwd="/home/ian/SmarterCircuitsDiscordBot/")
     try:
         main_loop.stop()
     except:
