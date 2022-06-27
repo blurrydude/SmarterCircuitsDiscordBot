@@ -102,7 +102,7 @@ async def execute(ctx, *args):
     except Exception as err:
         await ctx.send("restart failed\n"+err.with_traceback)
 
-@BOT.command(name='u', help='update bot course code and restart - admin only')
+@BOT.command(name='u', help='update bot source code and restart - admin only')
 async def update(ctx):
     if sdbot.is_admin(str(ctx.message.author.id)) is False:
         await ctx.send("You're not an admin.")

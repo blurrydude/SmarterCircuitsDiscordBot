@@ -1,7 +1,7 @@
 class BotBrain:
     def __init__(self, chassis):
         self.chassis = chassis
-        self.message_queue = []
+        self.message_queue = [{"channel":"house", "data":"initialized"}]
     
     async def main_loop(self):
         channels = {}
