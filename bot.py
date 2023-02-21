@@ -64,17 +64,17 @@ class SmarterDiscordBot:
 async def main_loop():
     await sdbot.brain.main_loop()
 
-@BOT.command(name='status', help="sends the Smarter Circtuis system status to the House channel")
-async def status(ctx, *args):
-    sdbot.bot_commands.status()
+# @BOT.command(name='status', help="sends the Smarter Circtuis system status to the House channel")
+# async def status(ctx, *args):
+#     sdbot.bot_commands.status()
 
-@BOT.command(name='cam', help="takes a picture by camera number (0-2) take or video by cameranumber and duration (0-2:secs)")
-async def cam(ctx, *args):
-    await sdbot.bot_commands.cam(ctx)
+# @BOT.command(name='cam', help="takes a picture by camera number (0-2) take or video by cameranumber and duration (0-2:secs)")
+# async def cam(ctx, *args):
+#     await sdbot.bot_commands.cam(ctx)
 
-@BOT.command(name='c', help="issues a command to the Smarter Circuits system - admin only")
-async def command(ctx, *args):
-    await sdbot.bot_commands.command(ctx)
+# @BOT.command(name='c', help="issues a command to the Smarter Circuits system - admin only")
+# async def command(ctx, *args):
+#     await sdbot.bot_commands.command(ctx)
 
 @BOT.command(name='t', help="toggles a circuit by name - admin only")
 async def toggle(ctx, *args):
@@ -88,27 +88,27 @@ async def set_temp(ctx, *args):
 async def execute(ctx, *args):
     await sdbot.bot_commands.restart(ctx)
 
-@BOT.command(name='tmo', help='thermostat manual override !tmo <room> <true/false>')
-async def tmo(ctx, *args):
-    await sdbot.bot_commands.thermostat_manual_override(ctx)
+# @BOT.command(name='tmo', help='thermostat manual override !tmo <room> <true/false>')
+# async def tmo(ctx, *args):
+#     await sdbot.bot_commands.thermostat_manual_override(ctx)
 
-@BOT.command(name='tmc', help='thermostat manual command !tmc <room> <fan/heat/ac> <on/off>')
-async def tmc(ctx, *args):
-    await sdbot.bot_commands.thermostat_manual_command(ctx)
+# @BOT.command(name='tmc', help='thermostat manual command !tmc <room> <fan/heat/ac> <on/off>')
+# async def tmc(ctx, *args):
+#     await sdbot.bot_commands.thermostat_manual_command(ctx)
 
-@BOT.command(name='restartssh', help='restarts a raspberry pi by last octet via ssh - admin only')
-async def restartssh(ctx, *args):
-    if sdbot.is_admin(str(ctx.message.author.id)) is False:
-        await ctx.send("You're not an admin.")
-        return
-    try:
-        host = "192.168.2"+ctx.message.content.replace("!restartssh ","")
-        ssh = SSHClient()
-        ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
-        ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
-        await ctx.send(ssh_stdout)
-    except Exception as err:
-        await ctx.send("restart failed\n"+err.with_traceback)
+# @BOT.command(name='restartssh', help='restarts a raspberry pi by last octet via ssh - admin only')
+# async def restartssh(ctx, *args):
+#     if sdbot.is_admin(str(ctx.message.author.id)) is False:
+#         await ctx.send("You're not an admin.")
+#         return
+#     try:
+#         host = "192.168.2"+ctx.message.content.replace("!restartssh ","")
+#         ssh = SSHClient()
+#         ssh.connect(host, username='pi', password=CRITTERCAM_SSH_PASS)
+#         ssh_stdin, ssh_stdout, ssh_stderr = ssh.exec_command('sudo reboot now')
+#         await ctx.send(ssh_stdout)
+#     except Exception as err:
+#         await ctx.send("restart failed\n"+err.with_traceback)
 
 @BOT.command(name='u', help='update bot source code and restart - admin only')
 async def update(ctx):
